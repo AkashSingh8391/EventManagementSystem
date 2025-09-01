@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Signup - EventMgmt</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+  <h2>Sign Up</h2>
+  <form id="signupForm">
+    <input name="username" placeholder="Username" required /><br/>
+    <input name="userage" type="number" min="1" placeholder="Age" required /><br/>
+    <input name="email" type="email" placeholder="Email" required /><br/>
+    <input name="password" type="password" placeholder="Password" minlength="6" required /><br/>
+    <input name="confirmPassword" type="password" placeholder="Confirm Password" minlength="6" required /><br/>
+    <button type="submit">Create Account</button>
+  </form>
+
+  <p>Pehle se signup hua to <a th:href="@{/login}">Login</a> click kare</p>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const body = Object.fromEntries(fd.entries());
+  // convert userage to number
+  body.userage = Number(body.userage);
+  const res = await fetch('/api/auth/signup',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  if(res.ok){
+    alert('Signup successful! Please login.');
+    window.location='/login';
+  } else {
+    const data = await res.json();
+    alert('Signup failed: ' + (data.error || JSON.stringify(data)));
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8"><title>Shadi</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+  <a th:href="@{/home}">Back</a>
+  <h2>Shadi Form</h2>
+  <form id="shadiForm">
+    <input name="bride" placeholder="Name of Bride" required /><br/>
+    <input name="groom" placeholder="Name of Groom" required /><br/>
+    <input name="budget" type="number" step="0.01" placeholder="Budget" required /><br/>
+    <input name="totalPerson" type="number" min="1" placeholder="Total Person" required /><br/>
+    <input name="eventDate" type="date" placeholder="Date" required /><br/>
+    <input name="location" placeholder="Location" required /><br/>
+    <button type="submit">Save</button>
+  </form>
+
+<script>
+document.getElementById('shadiForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const payload = {
+    type: 'SHADI',
+    userId: Number(sessionStorage.getItem('userId')),
+    primaryName: fd.get('bride'),
+    secondaryName: fd.get('groom'),
+    budget: fd.get('budget') ? Number(fd.get('budget')) : 0,
+    totalPerson: Number(fd.get('totalPerson')),
+    eventDate: fd.get('eventDate'),
+    location: fd.get('location')
+  };
+  const res = await fetch('/api/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if(res.ok){ alert('Shadi saved!'); window.location='/events/show'; }
+  else { const d=await res.json(); alert('Error: '+ (d.error||JSON.stringify(d))); }
+});
+</script>
+</body>
+</html>

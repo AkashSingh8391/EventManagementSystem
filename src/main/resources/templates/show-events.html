@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="utf-8"><title>Show Events</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+  <a th:href="@{/home}">Back</a>
+  <h2>All Events</h2>
+  <label>Filter Type:
+    <select id="typeFilter">
+      <option value="">--All--</option>
+      <option>SHADI</option>
+      <option>BIRTHDAY</option>
+      <option>ANNIVERSARY</option>
+      <option>PARTY</option>
+      <option>OTHER</option>
+    </select>
+  </label>
+
+  <table border="1">
+    <thead>
+      <tr><th>ID</th><th>Type</th><th>Primary</th><th>Secondary</th><th>Budget</th><th>Total</th><th>Date</th><th>Location</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+<script>
+const rows = document.getElementById('rows');
+async function load(url){
+  const res = await fetch(url);
+  const data = await res.json();
+  rows.innerHTML = data.map(e => `<tr>
+    <td>${e.id}</td><td>${e.type}</td><td>${e.primaryName||''}</td>
+    <td>${e.secondaryName||''}</td><td>${e.budget||''}</td>
+    <td>${e.totalPerson||''}</td><td>${e.eventDate||''}</td><td>${e.location||''}</td>
+  </tr>`).join('');
+}
+document.getElementById('typeFilter').addEventListener('change', (ev)=>{
+  const t = ev.target.value;
+  load(t ? `/api/events/type/${t}` : '/api/events');
+});
+load('/api/events');
+</script>
+</body>
+</html>
