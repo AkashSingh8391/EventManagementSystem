@@ -1,18 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="utf-8"><title>Home</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<head>
+  <meta charset="utf-8">
+  <title>Home - EventMgmt</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: #333;
+    }
+    nav {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav a {
+      text-decoration: none;
+      color: #0072ff;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      background: #0072ff;
+      color: white;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+      text-align: center;
+      color: white;
+      animation: fadeIn 1s ease-in-out;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
 <body>
   <nav>
-    <a th:href="@{/home}">Home</a> |
-    <a th:href="@{/shadi}">Shadi</a> |
-    <a th:href="@{/birthday}">Birthday</a> |
-    <a th:href="@{/anniversary}">Anniversary</a> |
-    <a th:href="@{/party}">Party</a> |
-    <a th:href="@{/other}">Other_Event</a> |
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/shadi}">Shadi</a>
+    <a th:href="@{/birthday}">Birthday</a>
+    <a th:href="@{/anniversary}">Anniversary</a>
+    <a th:href="@{/party}">Party</a>
+    <a th:href="@{/other}">Other Event</a>
     <a th:href="@{/events/show}">Show Event</a>
   </nav>
 
-  <h1>Welcome to Event Management</h1>
-  <p>Use navbar to create or view events.</p>
+  <div class="hero">
+    <h1>Welcome to Event Management</h1>
+    <p>Use the navigation bar above to create or view events.</p>
+  </div>
 </body>
 </html>
