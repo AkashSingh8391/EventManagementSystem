@@ -1,26 +1,151 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="utf-8"><title>Show Events</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
-<body>
-  <a th:href="@{/home}">Back</a>
-  <h2>All Events</h2>
-  <label>Filter Type:
-    <select id="typeFilter">
-      <option value="">--All--</option>
-      <option>SHADI</option>
-      <option>BIRTHDAY</option>
-      <option>ANNIVERSARY</option>
-      <option>PARTY</option>
-      <option>OTHER</option>
-    </select>
-  </label>
+<head>
+  <meta charset="utf-8">
+  <title>Show Events</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f9fc;
+    }
 
-  <table border="1">
-    <thead>
-      <tr><th>ID</th><th>Type</th><th>Primary</th><th>Secondary</th><th>Budget</th><th>Total</th><th>Date</th><th>Location</th></tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
+    nav {
+      background: #4a90e2;
+      padding: 12px 20px;
+      display: flex;
+      gap: 15px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .filter-box {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+    }
+
+    .filter-box label {
+      font-weight: bold;
+      color: #444;
+    }
+
+    select {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    table th, table td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      background: #4a90e2;
+      color: white;
+    }
+
+    table tr:nth-child(even) {
+      background: #f2f2f2;
+    }
+
+    table tr:hover {
+      background: #eaf3ff;
+      transition: 0.3s;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 15px;
+      color: #4a90e2;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+	
+	<nav>
+	    <a th:href="@{/home}">Home</a>
+	    <a th:href="@{/shadi}">Shadi</a>
+	    <a th:href="@{/birthday}">Birthday</a>
+	    <a th:href="@{/anniversary}">Anniversary</a>
+	    <a th:href="@{/party}">Party</a>
+	    <a th:href="@{/other}">Other Event</a>
+	    <a th:href="@{/events/show}">Show Event</a>
+	</nav>
+
+	<div class="container">
+	  <a class="back-link" th:href="@{/home}">← Back</a>
+	  <h2>All Events</h2>
+
+	  <div class="filter-box">
+	    <label>Filter Type:
+	      <select id="typeFilter">
+	        <option value="">--All--</option>
+	        <option>SHADI</option>
+	        <option>BIRTHDAY</option>
+	        <option>ANNIVERSARY</option>
+	        <option>PARTY</option>
+	        <option>OTHER</option>
+	      </select>
+	    </label>
+	  </div>
+
+	  <table>
+	    <thead>
+	      <tr>
+	        <th>ID</th>
+	        <th>Type</th>
+	        <th>Primary</th>
+	        <th>Secondary</th>
+	        <th>Budget</th>
+	        <th>Total</th>
+	        <th>Date</th>
+	        <th>Location</th>
+	      </tr>
+	    </thead>
+	    <tbody id="rows"></tbody>
+	  </table>
+	</div>
 
 <script>
 const rows = document.getElementById('rows');
@@ -28,9 +153,14 @@ async function load(url){
   const res = await fetch(url);
   const data = await res.json();
   rows.innerHTML = data.map(e => `<tr>
-    <td>${e.id}</td><td>${e.type}</td><td>${e.primaryName||''}</td>
-    <td>${e.secondaryName||''}</td><td>${e.budget||''}</td>
-    <td>${e.totalPerson||''}</td><td>${e.eventDate||''}</td><td>${e.location||''}</td>
+    <td>${e.id}</td>
+    <td>${e.type}</td>
+    <td>${e.primaryName||''}</td>
+    <td>${e.secondaryName||''}</td>
+    <td>${e.budget||''}</td>
+    <td>${e.totalPerson||''}</td>
+    <td>${e.eventDate||''}</td>
+    <td>${e.location||''}</td>
   </tr>`).join('');
 }
 document.getElementById('typeFilter').addEventListener('change', (ev)=>{
