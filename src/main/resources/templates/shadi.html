@@ -1,37 +1,154 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="utf-8"><title>Shadi</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
-<body>
-  <a th:href="@{/home}">Back</a>
-  <h2>Shadi Form</h2>
-  <form id="shadiForm">
-    <input name="bride" placeholder="Name of Bride" required /><br/>
-    <input name="groom" placeholder="Name of Groom" required /><br/>
-    <input name="budget" type="number" step="0.01" placeholder="Budget" required /><br/>
-    <input name="totalPerson" type="number" min="1" placeholder="Total Person" required /><br/>
-    <input name="eventDate" type="date" placeholder="Date" required /><br/>
-    <input name="location" placeholder="Location" required /><br/>
-    <button type="submit">Save</button>
-  </form>
+<head>
+  <meta charset="utf-8">
+  <title>Shadi</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+  <style>
+    body {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		      margin: 0;
+		      padding: 0;
+		      background: linear-gradient(to right, #00c6ff, #0072ff);
+		      color: #333;
+    }
 
-<script>
-document.getElementById('shadiForm').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  const payload = {
-    type: 'SHADI',
-    userId: Number(sessionStorage.getItem('userId')),
-    primaryName: fd.get('bride'),
-    secondaryName: fd.get('groom'),
-    budget: fd.get('budget') ? Number(fd.get('budget')) : 0,
-    totalPerson: Number(fd.get('totalPerson')),
-    eventDate: fd.get('eventDate'),
-    location: fd.get('location')
-  };
-  const res = await fetch('/api/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-  if(res.ok){ alert('Shadi saved!'); window.location='/events/show'; }
-  else { const d=await res.json(); alert('Error: '+ (d.error||JSON.stringify(d))); }
-});
-</script>
+	nav {
+	      background: rgba(255, 255, 255, 0.95);
+	      padding: 15px 25px;
+	      display: flex;
+	      justify-content: center;
+	      gap: 25px;
+	      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	      position: sticky;
+	      top: 0;
+	      z-index: 1000;
+	    }
+	    nav a {
+	      text-decoration: none;
+	      color: #0072ff;
+	      font-weight: 700;
+	      font-size: 1.2rem;  /* Bigger text */
+	      padding: 10px 18px;
+	      border-radius: 8px;
+	      transition: 0.3s;
+	    }
+	    nav a:hover {
+	      background: #0072ff;
+	      color: white;
+	      transform: scale(1.1);
+	    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 20px;
+    }
+
+    form input, form button {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ced4da;
+      font-size: 15px;
+    }
+
+    form input:focus {
+      border-color: #80bdff;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0,123,255,0.5);
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      border: none;
+    }
+
+    button:hover {
+      background: #218838;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 10px 0;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/shadi}">Shadi</a>
+    <a th:href="@{/birthday}">Birthday</a>
+    <a th:href="@{/anniversary}">Anniversary</a>
+    <a th:href="@{/party}">Party</a>
+    <a th:href="@{/other}">Other Event</a>
+    <a th:href="@{/events/show}">Show Event</a>
+  </nav>
+
+  <div class="container">
+    <a class="back-link" th:href="@{/home}">← Back</a>
+    <h2>Shadi Event Form</h2>
+
+    <form id="shadiForm">
+      <input name="bride" placeholder="Name of Bride" required />
+      <input name="groom" placeholder="Name of Groom" required />
+      <input name="budget" type="number" step="0.01" placeholder="Budget" required />
+      <input name="totalPerson" type="number" min="1" placeholder="Total Person" required />
+      <input name="eventDate" type="date" required />
+      <input name="location" placeholder="Location" required />
+      <button type="submit">Save</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('shadiForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const payload = {
+        type: 'SHADI',
+        userId: Number(sessionStorage.getItem('userId')),
+        primaryName: fd.get('bride'),
+        secondaryName: fd.get('groom'),
+        budget: fd.get('budget') ? Number(fd.get('budget')) : 0,
+        totalPerson: Number(fd.get('totalPerson')),
+        eventDate: fd.get('eventDate'),
+        location: fd.get('location')
+      };
+      const res = await fetch('/api/events', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        alert('🎉 Shadi saved successfully!');
+        window.location = '/events/show';
+      } else {
+        const d = await res.json();
+        alert('❌ Error: ' + (d.error || JSON.stringify(d)));
+      }
+    });
+  </script>
+
 </body>
 </html>
