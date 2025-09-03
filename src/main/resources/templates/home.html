@@ -109,12 +109,24 @@
   </div>
 
   <div class="gallery">
-	
-    <img src="/images/istockphoto-866987706-612x612.jpg" alt="Wedding">
-    <img src="/images/download.jpeg" alt="Birthday">
-    <img src="/images/download (1).jpeg" alt="Anniversary">
-    <img src="/images/download (2).jpeg" alt="Party">
-    <img src="/images/download (3).jpeg" alt="Other Event">
+    <a th:href="@{/shadi}">
+      <img src="/images/istockphoto-866987706-612x612.jpg" alt="Wedding">
+    </a>
+    <a th:href="@{/birthday}">
+      <img src="/images/download.jpeg" alt="Birthday">
+    </a>
+    <a th:href="@{/anniversary}">
+      <img src="/images/download (2).jpeg" alt="Anniversary">
+    </a>
+    <a th:href="@{/party}">
+      <img src="/images/download (3).jpeg" alt="Party">
+    </a>
+    <a th:href="@{/other}">
+      <img src="/images/download (1).jpeg" alt="Other Event">
+    </a>
   </div>
+
+  
+  
 </body>
 </html>
