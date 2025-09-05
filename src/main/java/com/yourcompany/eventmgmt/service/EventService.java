@@ -33,6 +33,8 @@ public class EventService {
         e.setLocation(req.getLocation());
         return eventRepository.save(e);
     }
+    
+    
 
     public List<Event> listAll(){ return eventRepository.findAll(); }
     public List<Event> listByType(String type){ return eventRepository.findByType(type); }
