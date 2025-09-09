@@ -53,33 +53,41 @@
       margin-bottom: 20px;
     }
 
-    form input, form button {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
-      border: 1px solid #ced4da;
-      font-size: 15px;
-    }
+	
+	form input, form button {
+	  width: 100%;
+	  padding: 12px 15px;
+	  margin: 10px 0;
+	  border-radius: 10px;
+	  border: 1px solid #ccc;
+	  font-size: 16px;
+	  background: #f8f9fa;
+	  transition: all 0.3s ease;
+	  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	}
 
-    form input:focus {
-      border-color: #80bdff;
-      outline: none;
-      box-shadow: 0 0 5px rgba(0,123,255,0.5);
-    }
+	/* Focus state */
+	form input:focus {
+	  border-color: #6c63ff;
+	  box-shadow: 0 0 8px rgba(108, 99, 255, 0.4);
+	  outline: none;
+	  background: #fff;
+	}
 
-    button {
-      background: #28a745;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-      border: none;
-    }
+	/* Button styling */
+	form button {
+	  background: linear-gradient(45deg, #6c63ff, #5a54e6);
+	  color: white;
+	  font-weight: 600;
+	  cursor: pointer;
+	  border: none;
+	}
 
-    button:hover {
-      background: #218838;
-    }
+	form button:hover {
+	  background: linear-gradient(45deg, #5a54e6, #6c63ff);
+	  transform: translateY(-2px);
+	  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+	}
 
     .back-link {
       display: inline-block;
