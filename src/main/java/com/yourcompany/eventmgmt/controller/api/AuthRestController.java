@@ -25,6 +25,8 @@ public class AuthRestController {
             return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
         }
     }
+    
+    
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest req){
